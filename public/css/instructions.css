@@ -1,0 +1,80 @@
+:root {
+    --primary-color: #c80075;
+    --primary-hover: #a1005e;
+    --success-color: #34a853;
+    --error-color: #ea4335;
+    --background-light: #f8f9fa;
+    --code-background: #2d2d2d;
+    --text-color: #333;
+}
+
+.container {
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.instruction-block {
+    background-color: var(--background-light);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.code-block {
+    background-color: var(--code-background);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: monospace;
+    margin: 1rem 0;
+}
+
+.requirement {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin: 1rem 0;
+}
+
+.success {
+    color: var(--success-color);
+}
+
+.failure {
+    color: var(--error-color);
+}
+
+/* Additional styles for requirements list */
+.requirements-list {
+    margin: 20px 0;
+}
+
+.requirement {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-size: 1.1em;
+    border-left: 4px solid var(--primary-color);
+}
+
+.completed {
+    background: #e8f5e9;
+    border-color: var(--success-color);
+}
+
+.pending {
+    background: #fbe9e7;
+    border-color: var(--error-color);
+}
+
+.hint {
+    margin: 10px 0 0 25px;
+    font-size: 0.9em;
+    color: var(--text-color);
+}
+
+code {
+    background: var(--background-light);
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-family: monospace;
+} 

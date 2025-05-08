@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<body>
+    <div class="container">
+        <h1>Velkommen til Monicas awesome konfetti timer!</h1>
+        <div class="message">
+            <% if (requirementsFailed) { %>
+                <p>😢 Oops! Du må fullføre alle kravene først!</p>
+                <p>Ikke bekymre deg, vi skal hjelpe deg dit.</p>
+                <p><a href="/instructions" class="button">Se kravene</a></p>
+            <% } else if (isCompleted) { %>
+                <p>🎉 Gratulerer! Du fullførte på:</p>
+                <p class="time"><%= timeTaken %></p>
+            <% } else { %>
+                <p>🎯 Nesten der! Sjekker fullføringen din...</p>
+            <% } %>
+        </div>
+    </div>
+    <%- include('partials/footer') %>
+</body>
+</html> 

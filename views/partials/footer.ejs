@@ -1,0 +1,149 @@
+<style>
+ 
+    @keyframes fall {
+        from {
+            transform: translateY(-400px);
+        }
+        to {
+            transform: translateY(100vh);
+        }
+    }
+ 
+</style>
+
+<script>
+    // Pass variables to window object for animations
+    window.requirementsFailed = <%- requirementsFailed %>;
+    window.isCompleted = <%- isCompleted %>;
+    window.timeTaken = <%- JSON.stringify(timeTaken) %>;
+
+    function createEmoji() {
+        const emojis = ['😢', '😭', '😪'];
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * (window.innerWidth - 48) + 'px';
+        document.body.appendChild(emoji);
+        
+        // Remove emoji after animation
+        emoji.addEventListener('animationend', () => {
+            emoji.remove();
+        });
+    }
+
+    let emojiInterval;
+
+    function updateMessageBox(isCompleted) {
+        const messageDiv = document.querySelector('.message');
+        if (!messageDiv) return;
+
+        if (isCompleted) {
+            messageDiv.innerHTML = `
+                <p>🎉 HURRA! Alle krav er oppfylt!</p>
+                <p>Du er fantastisk! La oss feire! 🎈</p>
+                <p class="time">Fullført på: ${window.timeTaken || 'kalkulerer...'}</p>
+                <p class="time">Prestasjon låst opp! 🏆</p>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <p>😢 Oops! Du må fullføre alle kravene først!</p>
+                <p>Ikke bekymre deg, du er ikke langt unna.</p>
+                <p><a href="/instructions" class="button">Se kravene</a></p>
+            `;
+        }
+    }
+
+    function startCryingAnimation() {
+        // Clear any existing interval
+        if (emojiInterval) clearInterval(emojiInterval);
+        
+        // Create initial batch of emojis
+        for(let i = 0; i < 10; i++) {
+            setTimeout(createEmoji, Math.random() * 2000);
+        }
+        // Continue creating emojis
+        emojiInterval = setInterval(() => {
+            if(window.requirementsFailed) {
+                createEmoji();
+            }
+        }, 300); // Create new emoji every 300ms
+    }
+
+    function fireCelebrationConfetti() {
+        const duration = 5000;
+        const end = Date.now() + duration;
+
+        function frame() {
+            confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#1a73e8', '#34a853', '#fbbc05', '#ea4335']
+            });
+            confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#1a73e8', '#34a853', '#fbbc05', '#ea4335']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }
+
+        frame();
+    }
+
+    // Toggle function for testing
+    function toggleRequirements() {
+        // Clear all existing emojis
+        document.querySelectorAll('.emoji').forEach(e => e.remove());
+        
+        // Toggle states
+        window.requirementsFailed = !window.requirementsFailed;
+        window.isCompleted = !window.requirementsFailed;
+        
+        // For testing, set a dummy completion time
+        if (window.isCompleted && !window.timeTaken) {
+            // window.timeTaken = "2 timer og 15 minutter";
+        }
+        
+        // Update message box
+        updateMessageBox(window.isCompleted);
+        
+        // Start appropriate animation
+        if (window.requirementsFailed) {
+            startCryingAnimation();
+        } else {
+            if (emojiInterval) clearInterval(emojiInterval);
+            fireCelebrationConfetti();
+        }
+        
+        console.log('Tilstand endret:', 
+            window.requirementsFailed ? 'Krav ikke oppfylt' : 'Krav oppfylt');
+    }
+
+
+
+    // Start animations based on page state
+    window.addEventListener('load', function() {
+        console.log('Vindu lastet. Krav ikke oppfylt:', window.requirementsFailed, 
+                  'Er fullført:', window.isCompleted, 
+                  'Tid brukt:', window.timeTaken);
+        
+        // Update initial message
+        updateMessageBox(window.isCompleted);
+        
+        if (window.requirementsFailed) {
+            startCryingAnimation();
+        } else if (window.isCompleted) {
+            fireCelebrationConfetti();
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</body>
+</html> 

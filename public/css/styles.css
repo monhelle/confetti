@@ -1,0 +1,66 @@
+:root {
+    --primary-color: #c80075;
+    --primary-hover: #a1005e;
+    --success-color: #34a853;
+    --error-color: #ea4335;
+    --background-color: #f0f2f5;
+    --text-color: #333;
+    --shadow-color: rgba(0,0,0,0.1);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--background-color);
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.message {
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    color: var(--text-color);
+}
+
+.time {
+    font-weight: bold;
+    color: var(--success-color);
+}
+.emoji {
+    position: fixed;
+    font-size: 48px;
+    user-select: none;
+    animation: fall 4s linear;
+    z-index: 1000;
+}
+
+.button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.button:hover {
+    background-color: var(--primary-hover);
+} 

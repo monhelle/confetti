@@ -1,0 +1,80 @@
+<%- include('partials/head') %>
+<body>
+    <div class="container">
+        <h1>Fullfør alle kravene</h1>
+        
+
+
+        <div class="instruction-block">
+            <h2>Krav status</h2>
+            <div class="requirements-list">
+                <div class="requirement <%= requirements.ip ? 'completed' : 'pending' %>">
+                    <%= requirements.ip ? '✅' : '😢' %> IP-adresse må følge mønsteret 10.12.XX.244
+                    <% if (!requirements.ip) { %>
+                        <p class="hint">📝 Du satt ikke opp med riktig IP. Hint, gå til netplan og endre ip -> skriv deretter netplan apply</p>
+                    <% } %>
+                </div>
+
+                <div class="requirement <%= requirements.node ? 'completed' : 'pending' %>">
+                    <%= requirements.node ? '✅' : '😢' %> Node.js versjon 19 eller høyere
+                    <% if (!requirements.node) { %>
+                        <p class="hint">📝 Installer eller oppgrader Node.js:
+                            <code>nvm install 19 && nvm use 19</code>
+                        </p>
+                    <% } %>
+                </div>
+
+                <div class="requirement <%= requirements.mongodb ? 'completed' : 'pending' %>">
+                    <%= requirements.mongodb ? '✅' : '😢' %> MongoDB skal IKKE være installert
+                    <% if (!requirements.mongodb) { %>
+                        <p class="hint">📝 Avinstaller MongoDB:
+                            <code>brew uninstall mongodb-community</code> (macOS)<br>
+                            <code>sudo apt remove mongodb mongodb-server</code> (Linux)
+                        </p>
+                    <% } %>
+                </div>
+
+                <div class="requirement <%= requirements.pm2 ? 'completed' : 'pending' %>">
+                    <%= requirements.pm2 ? '✅' : '😢' %> PM2 installert og kjører server/app
+                    <% if (!requirements.pm2) { %>
+                        <p class="hint">📝 Installer og start PM2:
+                            <code>npm install -g pm2 && pm2 start app.js --name server</code>
+                        </p>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .requirements-list {
+                margin: 20px 0;
+            }
+            .requirement {
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 8px;
+                font-size: 1.1em;
+            }
+            .completed {
+                background: #e8f5e9;
+                border: 1px solid #81c784;
+            }
+            .pending {
+                background: #fbe9e7;
+                border: 1px solid #ff8a65;
+            }
+            .hint {
+                margin: 10px 0 0 25px;
+                font-size: 0.9em;
+                color: #666;
+            }
+            code {
+                background: #f5f5f5;
+                padding: 2px 5px;
+                border-radius: 3px;
+                font-family: monospace;
+            }
+        </style>
+    </div>
+</body>
+</html> 
