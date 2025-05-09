@@ -5,7 +5,6 @@ const checkRequirements = require('../utils/requirementsCheck');
 // Get completion status and time
 exports.getStatus = async (req, res) => {
   try {
-    const completion = await Completion.findOne({ isCompleted: true });
     const requirements = await checkRequirements();
     
     if (!requirements.success) {
@@ -13,6 +12,15 @@ exports.getStatus = async (req, res) => {
         isCompleted: false,
         requirementsFailed: true,
         timeTaken: null
+      });
+    }
+
+    // If requirements are met but completion not marked, mark it
+    let completion = await Completion.findOne({ isCompleted: true });
+    if (!completion && requirements.success) {
+      completion = await Completion.create({
+        isCompleted: true,
+        completionTime: new Date()
       });
     }
 
@@ -34,7 +42,7 @@ exports.getStatus = async (req, res) => {
     }
 
     res.render('index', { 
-      isCompleted: !!completion,
+      isCompleted: true,  // If we got here, requirements are met
       requirementsFailed: false,
       timeTaken: formattedTime
     });
