@@ -1,10 +1,6 @@
 const moment = require('moment');
 const Completion = require('../models/completion');
-const CompletionTracker = require('../models/completionTracker');
 const checkRequirements = require('../utils/requirementsCheck');
-const { exec } = require('child_process');
-const util = require('util');
-const execPromise = util.promisify(exec);
 
 // Get completion status and time
 exports.getStatus = async (req, res) => {
@@ -26,34 +22,9 @@ exports.getStatus = async (req, res) => {
         isCompleted: true,
         completionTime: new Date()
       });
-
-      // Get IP address using hostname -I
-      const { stdout: ipOutput } = await execPromise('hostname -I');
-      const ips = ipOutput.trim().split(' ').filter(ip => ip);
-      const userIp = ips.find(ip => /^10\.12\.[0-9]+\.244$/.test(ip)) || ips[0];
-
-      const targetTime = moment('10:30', 'HH:mm');
-      const completionTime = moment(completion.completionTime);
-      const timeDiff = completionTime.diff(targetTime, 'minutes');
-      
-      let formattedTime = '';
-      if (timeDiff >= 60) {
-        const hours = Math.floor(timeDiff / 60);
-        const minutes = timeDiff % 60;
-        formattedTime = `${hours} timer og ${minutes} minutter`;
-      } else {
-        formattedTime = `${timeDiff} minutter`;
-      }
-
-      // Store in tracker database
-      await CompletionTracker.create({
-        ipAddress: userIp,
-        completionTime: completion.completionTime,
-        timeTaken: formattedTime
-      });
     }
 
-    const targetTime = moment('10:30', 'HH:mm');
+    const targetTime = moment('12:10', 'HH:mm');
     let timeDiff = null;
     let formattedTime = '';
 
