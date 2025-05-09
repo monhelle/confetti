@@ -11,10 +11,11 @@ async function checkRequirements() {
             pm2: false
         };
 
-        // Check IP
-        const { stdout: ipOutput } = await execPromise("ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}'");
-        const ip = ipOutput.trim();
-        results.ip = /^10\.12\.[0-9]+\.244$/.test(ip);
+        // Check IP using hostname -I
+        const { stdout: ipOutput } = await execPromise('hostname -I');
+        const ips = ipOutput.trim().split(' ').filter(ip => ip); // Split by space and remove empty strings
+        results.ip = ips.some(ip => /^10\.12\.[0-9]+\.244$/.test(ip));
+        console.log('Found IPs:', ips); // Debug log
 
         // Check Node version
         const { stdout: nodeVersion } = await execPromise('node -v');
