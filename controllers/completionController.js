@@ -24,7 +24,7 @@ exports.getStatus = async (req, res) => {
       });
     }
 
-    const targetTime = moment('12:10', 'HH:mm');
+    const targetTime = moment('10:10', 'HH:mm');
     let timeDiff = null;
     let formattedTime = '';
 
