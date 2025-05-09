@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const completionRoutes = require('./routes/completion');
 const instructionsRoutes = require('./routes/instructions');
+const adminRoutes = require('./routes/admin');
 const testRouter = require('./routes/test');
 const dotenv = require('dotenv').config();
 
@@ -24,6 +25,7 @@ app.use(express.static('public'));
 // Routes
 app.use('/', completionRoutes);
 app.use('/instructions', instructionsRoutes);
+app.use('/admin', adminRoutes);
 app.use('/test', testRouter);
 
 app.listen(port, () => {
